@@ -17,7 +17,12 @@ val smithyVersion: String by project
 
 plugins {
     `java-library`
+    `maven-publish`
     jacoco
+}
+
+repositories {
+  mavenLocal()
 }
 
 group = "software.amazon.smithy.go"
@@ -55,4 +60,12 @@ tasks.withType<JacocoReport> {
         csv.isEnabled = false
         html.destination = file("$buildDir/reports/jacoco")
     }
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("mavenJava") {
+      from(components["java"])
+    }
+  }
 }
